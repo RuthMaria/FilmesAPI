@@ -442,11 +442,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ruth-\\source\\repos\\FilmesAPI\\FilmesAPI\\FilmesAPI.csproj",
+      "projectUniqueName": "C:\\Users\\ruth-\\Downloads\\Projetos\\FilmesAPI\\FilmesAPI\\FilmesAPI.csproj",
       "projectName": "FilmesAPI",
-      "projectPath": "C:\\Users\\ruth-\\source\\repos\\FilmesAPI\\FilmesAPI\\FilmesAPI.csproj",
+      "projectPath": "C:\\Users\\ruth-\\Downloads\\Projetos\\FilmesAPI\\FilmesAPI\\FilmesAPI.csproj",
       "packagesPath": "C:\\Users\\ruth-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ruth-\\source\\repos\\FilmesAPI\\FilmesAPI\\obj\\",
+      "outputPath": "C:\\Users\\ruth-\\Downloads\\Projetos\\FilmesAPI\\FilmesAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ruth-\\AppData\\Roaming\\NuGet\\NuGet.Config",
