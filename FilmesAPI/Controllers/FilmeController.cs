@@ -18,6 +18,7 @@ public class FilmeController : ControllerBase
         filme.Id = id++;
         filmes.Add(filme);
 
+        // em requisições POST sempre tem que retornar o objeto criado
        return CreatedAtAction(nameof(RecuperaFilmePorId), new {id = filme.Id}, filme);
     }
 
