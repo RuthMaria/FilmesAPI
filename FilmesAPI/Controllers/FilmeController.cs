@@ -4,6 +4,7 @@ using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+
 namespace FilmesAPI.Controllers;
 
 [ApiController]
@@ -22,8 +23,15 @@ public class FilmeController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Adiciona um filme
+    /// </summary>
+    /// <param name="filmeDto">Objeto com os campos necessários para criação de um filme</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="201">Caso inserção seja feita com sucesso</response>
     [HttpPost]
-    public IActionResult Adiciona([FromBody] CreateFilmeDto filmeDto)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
     {
         /*
           o _mapper transforma um CreateFilmeDto em um filme
@@ -47,6 +55,7 @@ public class FilmeController : ControllerBase
        return CreatedAtAction(nameof(RecuperaFilmePorId), new {id = filme.Id}, filme);
     }
 
+
     /* 
        IEnumerable é a mesma coisa que List, só que IEnumerable é a
        interface, então fica mais fácil caso seja alterado futuramente
@@ -58,13 +67,30 @@ public class FilmeController : ControllerBase
        O método Skip() indica quantos elementos da lista pular, enquanto o
        Take() define quantos serão selecionados
      */
+
+    /// <summary>
+    /// Lista todos os filmes
+    /// </summary>
+    /// <param name="skip">Quantidade de itens que serão pulados</param>
+    /// <param name="take">Quantidade de itens que serão selecionados</param>
+    /// <response code="200">Caso a listagem seja feita com sucesso</response>
+    [ProducesResponseType(typeof(List<ReadFilmeDto>), StatusCodes.Status200OK)]
     [HttpGet]
-    public IEnumerable<Filme> RecuperaFilmes([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public IEnumerable<ReadFilmeDto> RecuperaFilmes([FromQuery] int skip = 0,
+        [FromQuery] int take = 50)
     {
-        return _context.Filmes.Skip(skip).Take(take);
+        return _mapper.Map<List<ReadFilmeDto>>(_context.Filmes.Skip(skip).Take(take));
     }
 
-    // seria a rota "Filme/id"
+    /* seria a rota "Filme/id" */
+
+    /// <summary>
+    /// Busca um filme
+    /// </summary>
+    /// <param name="id">Identificador do filme</param>
+    /// <response code="200">Caso a busca seja feita com sucesso</response>
+    /// <returns>IActionResult</returns>
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("{id}")]
     public IActionResult RecuperaFilmePorId(int id)
     {
@@ -73,9 +99,19 @@ public class FilmeController : ControllerBase
         if (filme == null)
             return NotFound();
 
-        return Ok(filme);
+        var filmeDto = _mapper.Map<Filme>(filme);
+
+        return Ok(filmeDto);
     }
 
+    /// <summary>
+    /// Atualiza um filme
+    /// </summary>
+    /// <param name="id">Identificador do filme</param>
+    /// <param name="filmeDto">Objeto com os campos que serão alterados</param>
+    /// <response code="204">Sem conteúdo</response>
+    /// <returns>IActionResult</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
     public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeDto)
     {
@@ -101,8 +137,18 @@ public class FilmeController : ControllerBase
         }
      ]
 
-    onde "op" é a operação, "path" é o campo a ser alterado e "value" o valor que será atribuído
+    onde "op" é a operação, "path" é o campo a ser alterado e "value" o valor que será atribuído.
+    Não é necessário enviar o objeto completo, como no PUT. Apenas os campos que serão atualizados.
      */
+
+    /// <summary>
+    /// Atualiza um filme
+    /// </summary>
+    /// <param name="id">Identificador do filme</param>
+    /// <param name="patch">Array de objeto com os campos que serão alterados</param>
+    /// <response code="204">Sem conteúdo</response>
+    /// <returns>IActionResult</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPatch("{id}")]
     public IActionResult AtualizaFilmeParcial(int id, JsonPatchDocument<UpdateFilmeDto> patch)
     {
@@ -124,6 +170,28 @@ public class FilmeController : ControllerBase
         _mapper.Map(filmeParaAtualizar, filme);
         _context.SaveChanges();
 
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Deleta um filme
+    /// </summary>
+    /// <param name="id">Identificador do filme</param>
+    /// <response code="204">Sem conteúdo</response>
+    /// <returns>IActionResult</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [HttpDelete("{id}")]
+    public IActionResult DeletaFilme(int id)
+    {
+        var filme = _context.Filmes.FirstOrDefault(
+            filme => filme.Id == id);
+
+        if (filme == null)
+            return NotFound();
+        
+        _context.Remove(filme);
+        _context.SaveChanges();
+        
         return NoContent();
     }
 }

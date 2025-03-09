@@ -106,3 +106,5 @@ C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft
 C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\bin\Debug\net6.0\FilmesAPI.xml
+C:\Users\ruth-\Downloads\Projetos\FilmesAPI\FilmesAPI\obj\Debug\net6.0\FilmesAPI.xml
