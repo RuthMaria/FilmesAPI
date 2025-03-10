@@ -8,14 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilmesAPI.Controllers;
 
 [ApiController]
-// é o mesmo que usar o [Route("Filme")], pois ele já pega o nome que está
-// no controler. Caso mude o nome do controler, não precisaria alterar o
-// route.
+/*
+ é o mesmo que usar o [Route("Filme")], pois ele já pega o nome que está
+ no controler. Caso mude o nome do controler, não precisaria alterar o
+ route.
+*/
 [Route("[controller]")]
 public class FilmeController : ControllerBase
 {
-    private FilmeContext _context;
-    private IMapper _mapper;
+    private FilmeContext _context; // tenho acesso as tabelas do banco de dados para fazer operações
+    private IMapper _mapper; // vai fazer o mapeamento/conversão entre o objeto que eu recebo e o que eu envio, ou vice-versa
 
     public FilmeController(FilmeContext context, IMapper mapper)
     {
@@ -34,9 +36,9 @@ public class FilmeController : ControllerBase
     public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
     {
         /*
-          o _mapper transforma um CreateFilmeDto em um filme
+          o _mapper transforma um CreateFilmeDto em um Filme
          
-           É o mesmo que fazer:
+           É o mesmo que fazer dessa forma:
 
            var filme = new Filme
             {
@@ -44,15 +46,16 @@ public class FilmeController : ControllerBase
                 Genero = filmeDto.Genero,
                 Duracao = filmeDto.Duracao,
             };
+
+        só que com o mapper é menos trabalhoso no de uma tabela com vários campos
          */
 
         Filme filme = _mapper.Map<Filme>(filmeDto); 
 
         _context.Filmes.Add(filme);
-        _context.SaveChanges();
+        _context.SaveChanges(); // qualquer alteração no banco deve-se salvar a mudança
 
-        // em requisições POST sempre tem que retornar o objeto criado
-       return CreatedAtAction(nameof(RecuperaFilmePorId), new {id = filme.Id}, filme);
+       return CreatedAtAction(nameof(RecuperaFilmePorId), new {id = filme.Id}, filme);  // em requisições POST sempre tem que retornar o objeto criado
     }
 
 
@@ -65,7 +68,7 @@ public class FilmeController : ControllerBase
        informada pelo usuário.
 
        O método Skip() indica quantos elementos da lista pular, enquanto o
-       Take() define quantos serão selecionados
+       Take() define quantos serão selecionados.
      */
 
     /// <summary>
