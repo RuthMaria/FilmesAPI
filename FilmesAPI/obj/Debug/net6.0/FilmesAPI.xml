@@ -34,7 +34,7 @@
             </summary>
             <param name="id">Identificador do filme</param>
             <param name="filmeDto">Objeto com os campos que serão alterados</param>
-            <response code="204">sem conteúdo</response>
+            <response code="204">Sem conteúdo</response>
             <returns>IActionResult</returns>
         </member>
         <member name="M:FilmesAPI.Controllers.FilmeController.AtualizaFilmeParcial(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{FilmesAPI.Data.Dtos.UpdateFilmeDto})">
@@ -43,7 +43,7 @@
             </summary>
             <param name="id">Identificador do filme</param>
             <param name="patch">Array de objeto com os campos que serão alterados</param>
-            <response code="204">sem conteúdo</response>
+            <response code="204">Sem conteúdo</response>
             <returns>IActionResult</returns>
         </member>
         <member name="M:FilmesAPI.Controllers.FilmeController.DeletaFilme(System.Int32)">
@@ -51,7 +51,7 @@
             Deleta um filme
             </summary>
             <param name="id">Identificador do filme</param>
-            <response code="204">sem conteúdo</response>
+            <response code="204">Sem conteúdo</response>
             <returns>IActionResult</returns>
         </member>
     </members>
